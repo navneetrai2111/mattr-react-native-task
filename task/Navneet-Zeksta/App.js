@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import Home from "./Components/Home";
 import Filter from "./Components/Filter";
+import UserProfile from "./Components/UserProfile";
+import ViewProfile from "./Components/ViewProfile";
 
 export default function App() {
   return (
     <View style={styles.container}>
  
       {/* <Home /> */}
-      <Filter/> 
+      {/* <Filter/>  */}
+      {/* <UserProfile/> */}
+      <ViewProfile/>
     </View>
   );
 }

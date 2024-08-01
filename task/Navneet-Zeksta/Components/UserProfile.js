@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-const ViewProfile = () => {
+const UserProfile = () => {
   return (
     <View>
       <TouchableOpacity style={styles.closeButton}>
@@ -12,18 +12,8 @@ const ViewProfile = () => {
         style={styles.image}
       />
       <View style={styles.details}>
-        <View style={styles.profileHeader}>
-          <View>
-            <Text style={styles.name}>Frank Stark, 23</Text>
-            <Text style={styles.location}>London, United Kingdom</Text>
-          </View>
-          <TouchableOpacity>
-            <Image
-              source={require("../assets/—Pngtree—vector heart icon_4013526.png")}
-              style={styles.Likeimage}
-            />
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.name}>Frank Stark, 23</Text>
+        <Text style={styles.location}>London, United Kingdom</Text>
         <Text style={styles.about}>
           Hey, I'm Frank, a 23-year-old marketing enthusiast who loves outdoor
           adventures. Whether it's hiking or a cozy night in, I embrace every
@@ -33,13 +23,13 @@ const ViewProfile = () => {
         </Text>
         <Text style={styles.interestText}> Interests </Text>
         <View style={styles.interestRow}>
-          <View style={styles.interestedOn}>
+          <View style={styles.intrestedON}>
             <Text style={styles.interest}> Running </Text>
           </View>
-          <View style={styles.interestedOn}>
+          <View style={styles.intrestedON}>
             <Text style={styles.interest}> Hiking </Text>
           </View>
-          <View style={styles.interestedOn}>
+          <View style={styles.intrestedON}>
             <Text style={styles.interest}> Outdoors </Text>
           </View>
         </View>
@@ -51,7 +41,7 @@ const ViewProfile = () => {
 const styles = StyleSheet.create({
   closeButton: {
     position: "absolute",
-    top: -10,
+    top: 10,
     left: 20,
     zIndex: 1,
   },
@@ -62,24 +52,12 @@ const styles = StyleSheet.create({
   image: {
     width: 400,
     height: 400,
-    top: -30,
-  },
-  Likeimage: {
-    width: 25,
-    height: 25,
-    marginLeft: 80,
-    top: -14,
-    alignSelf: "flex-end",
+    top: -12,
   },
   details: {
     paddingHorizontal: 20,
     paddingVertical: 20,
     paddingBottom: 20,
-  },
-  profileHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
   },
   name: {
     fontSize: 22,
@@ -87,6 +65,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 20,
+    marginBottom: 10,
     fontWeight: "400",
   },
   about: {
@@ -101,7 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 10,
   },
-  interestedOn: {
+  intrestedON: {
     paddingHorizontal: 20,
     paddingVertical: 5,
     marginHorizontal: 3,
@@ -115,4 +94,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewProfile;
+export default UserProfile;
