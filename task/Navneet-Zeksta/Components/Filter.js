@@ -10,8 +10,10 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import data from "../assets/data.json";
+
 const Filter = () => {
-  const navigate = useNavigation();
+  const navigation = useNavigation();
 
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
@@ -33,18 +35,50 @@ const Filter = () => {
     setSelectedSortBy(sortBy);
   };
 
+  const applyFilters = () => {
+    let filteredData = data;
+
+    if (selectedGender) {
+      filteredData = filteredData.filter(
+        (user) => user.gender.toUpperCase() === selectedGender.toUpperCase()
+      );
+    }
+
+    if (selectedAgeRange) {
+      const [minAge, maxAge] = selectedAgeRange.split("-").map(Number);
+      filteredData = filteredData.filter((user) => {
+        const age =
+          new Date().getFullYear() -
+          new Date(user.dob.split("/").reverse().join("-")).getFullYear();
+        return age >= minAge && (!maxAge || age <= maxAge);
+      });
+    }
+
+    if (selectedSortBy === "Score") {
+      filteredData = filteredData.sort((a, b) => b.score - a.score);
+    } else if (selectedSortBy === "Date Joined") {
+      filteredData = filteredData.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
+    }
+
+    navigation.navigate("Activity ", {
+      filteredData: filteredData,
+    });
+  };
+
   return (
     <>
       <StatusBar style="auto" />
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigate.goBack()}>
-              <Text style={styles.headerText}>Cancel </Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.headerText}>Cancel</Text>
             </TouchableOpacity>
-            <Text style={styles.filterText}>Filter </Text>
+            <Text style={styles.filterText}>Filter</Text>
             <TouchableOpacity>
-              <Text style={styles.headerText}>Clear All </Text>
+              <Text style={styles.headerText}>Clear All</Text>
             </TouchableOpacity>
           </View>
 
@@ -114,14 +148,13 @@ const Filter = () => {
                     label={option}
                     value={option}
                     style={styles.pickerItems}
-                    // color={selectedSortBy === option ? '#fff' : '#000'}
                   />
                 ))}
               </Picker>
             </View>
           </View>
         </ScrollView>
-        <TouchableOpacity style={styles.applyButton}>
+        <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
           <Text style={styles.applyButtonText}>Apply Filters</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -184,11 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: -18,
   },
-  picker: {
-    // height: 50,
-    // width: '100%',
-    // color: '#000',
-  },
+  picker: {},
   applyButton: {
     backgroundColor: "#d6139c",
     paddingVertical: 16,
