@@ -1,23 +1,16 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { Picker } from "@react-native-picker/picker";
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Picker } from '@react-native-picker/picker';
 
-const Filter = () => {
+const Filter = ({ navigation }) => {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
-  const [selectedSortBy, setSelectedSortBy] = useState("Score");
+  const [selectedSortBy, setSelectedSortBy] = useState('Score');
 
-  const genders = ["MALE", "FEMALE"];
-  const ageRanges = ["20-24", "25-30", "30-40", "40+"];
-  const sortByOptions = ["Score", "Date Joined"];
+  const genders = ['MALE', 'FEMALE'];
+  const ageRanges = ['20-24', '25-30', '30-40', '40+'];
+  const sortByOptions = ['Score', 'Date Joined'];
 
   const handleGenderPress = (gender) => {
     setSelectedGender(gender);
@@ -37,12 +30,12 @@ const Filter = () => {
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
-            <TouchableOpacity>
-              <Text style={styles.headerText}>Cancel</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Text style={styles.headerText}>Cancel </Text>
             </TouchableOpacity>
-            <Text style={styles.filterText}>Filter</Text>
+            <Text style={styles.filterText}>Filter </Text>
             <TouchableOpacity>
-              <Text style={styles.headerText}>Clear All</Text>
+              <Text style={styles.headerText}>Clear All </Text>
             </TouchableOpacity>
           </View>
 
@@ -61,8 +54,7 @@ const Filter = () => {
                   <Text
                     style={[
                       styles.optionButtonText,
-                      selectedGender === gender &&
-                        styles.optionButtonTextSelected,
+                      selectedGender === gender && styles.optionButtonTextSelected,
                     ]}
                   >
                     {gender}
@@ -87,8 +79,7 @@ const Filter = () => {
                   <Text
                     style={[
                       styles.optionButtonText,
-                      selectedAgeRange === range &&
-                        styles.optionButtonTextSelected,
+                      selectedAgeRange === range && styles.optionButtonTextSelected,
                     ]}
                   >
                     {range}
@@ -107,17 +98,15 @@ const Filter = () => {
                 style={styles.picker}
               >
                 {sortByOptions.map((option) => (
-                  <Picker.Item key={option} label={option} value={option} />
+                  <Picker.Item
+                    key={option}
+                    label={option}
+                    value={option}
+                    style={styles.pickerItems}
+                    // color={selectedSortBy === option ? '#fff' : '#000'}
+                  />
                 ))}
               </Picker>
-            </View>
-            <View style={styles.sortByMainContainer}>
-              <View style={styles.sortByContainer}>
-                <TouchableOpacity>
-                  <Text style={styles.sortByContainerText}>Score</Text>
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.dateText}>Date Joined</Text>
             </View>
           </View>
         </ScrollView>
@@ -133,16 +122,16 @@ const styles = StyleSheet.create({
   container: {
     top: 24,
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 24,
   },
   headerText: {
     fontSize: 16,
-    color: "#D81B60",
+    color: '#D81B60',
   },
   filterText: {
     fontSize: 16,
@@ -153,79 +142,52 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 18,
     marginHorizontal: -18,
   },
   optionsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   optionButton: {
-    backgroundColor: "#ffe8fa",
+    backgroundColor: '#ffe8fa',
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
     margin: 4,
   },
   optionButtonSelected: {
-    backgroundColor: "#d6139c",
+    backgroundColor: '#d6139c',
   },
   optionButtonText: {
-    color: "#c936a8",
+    color: '#c936a8',
     fontSize: 14,
   },
   optionButtonTextSelected: {
-    color: "#fff",
+    color: '#fff',
   },
   sortByPickerContainer: {
-    borderColor: "#8f3273",
+    borderColor: '#8f3273',
     borderWidth: 1,
     borderRadius: 20,
     marginHorizontal: -18,
-  },
+    },
   picker: {
-    height: 50,
-    width: "100%",
-    color: "#000",
-  },
-  sortByMainContainer: {
-    backgroundColor: "#f7f2f6",
-    paddingVertical: 16,
-    borderRadius: 20,
-    top: 12,
-    marginHorizontal: -18,
-  },
-
-  sortByContainer: {
-    backgroundColor: "#d6139c",
-    paddingVertical: 18,
-    borderRadius: 15,
-    top: -4,
-    marginHorizontal: 8,
-  },
-  sortByContainerText: {
-    color: "#fff",
-    fontSize: 16,
-    paddingLeft: 12,
-  },
-  dateText: {
-    color: "#636161",
-    fontSize: 16,
-    paddingLeft: 18,
-    top: 14,
-    marginBottom: 18,
+    // height: 50,
+    // width: '100%',
+    // color: '#000',
   },
   applyButton: {
-    backgroundColor: "#d6139c",
+    backgroundColor: '#d6139c',
     paddingVertical: 16,
     borderRadius: 20,
-    alignItems: "center",
+    alignItems: 'center',
     margin: 12,
     marginBottom: 44,
   },
   applyButtonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
   },
 });

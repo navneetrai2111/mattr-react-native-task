@@ -1,47 +1,128 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useRef, useCallback } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import moment from "moment";
 
-const UserProfile = () => {
+const UserProfile = ({ route, navigation }) => {
+  const { user } = route.params;
+  const isHomeScreen = route.name === "Home";
+  const isProfileScreen = route.name === "UserProfile";
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const flatListRef = useRef(null);
+
+  // Define viewable items change handler
+  const viewableItemsChanged = useCallback(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setCurrentIndex(viewableItems[0].index);
+    }
+  }, []);
+
+  const keyExtractor = (item) => item.id.toString();
+
+  const renderDot = (index) => (
+    <View
+      key={index}
+      style={[styles.dot, currentIndex === index && styles.activeDot]}
+    />
+  );
+
+  const renderItem = ({ item }) => (
+    <Image source={{ uri: item.path }} style={styles.image} />
+  );
+
+  const calculateAge = (dob) => {
+    return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
+  };
+
+  const age = calculateAge(user.dob);
+
   return (
-    <View>
-      <TouchableOpacity style={styles.closeButton}>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.closeButton}
+        onPress={() => navigation.navigate("Home")}
+      >
         <Text style={styles.closeButtonText}>X</Text>
       </TouchableOpacity>
-      <Image
-        source={require("../assets/free-nature-images.jpg")}
-        style={styles.image}
+      <FlatList
+        ref={flatListRef}
+        data={user.photos}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        horizontal
+        pagingEnabled
+        onViewableItemsChanged={viewableItemsChanged}
+        showsHorizontalScrollIndicator={false}
+        viewabilityConfig={{
+          itemVisiblePercentThreshold: 50,
+        }}
       />
+      <View style={styles.dotsContainer}>
+        {user.photos.map((_, index) => renderDot(index))}
+      </View>
       <View style={styles.details}>
-        <Text style={styles.name}>Frank Stark, 23</Text>
-        <Text style={styles.location}>London, United Kingdom</Text>
-        <Text style={styles.about}>
-          Hey, I'm Frank, a 23-year-old marketing enthusiast who loves outdoor
-          adventures. Whether it's hiking or a cozy night in, I embrace every
-          moment with enthusiasm. My infectious humor and love for deep
-          conversations define me. I'm seeking a partner ready for genuine
-          connections and new adventures. Connect with me and let's dive in!
+        <Text style={styles.name}>
+          {user.first_name} {user.last_name}, {age}
         </Text>
-        <Text style={styles.interestText}> Interests </Text>
+        <Text style={styles.location}>
+          {user.location.city}, {user.location.country}
+        </Text>
+        <Text style={styles.about}>{user.bio}</Text>
+        <Text style={styles.interestText}>Interests</Text>
         <View style={styles.interestRow}>
-          <View style={styles.intrestedON}>
-            <Text style={styles.interest}> Running </Text>
-          </View>
-          <View style={styles.intrestedON}>
-            <Text style={styles.interest}> Hiking </Text>
-          </View>
-          <View style={styles.intrestedON}>
-            <Text style={styles.interest}> Outdoors </Text>
-          </View>
+          {user.interests.map((interest) => (
+            <View key={interest.id} style={styles.intrestedON}>
+              <Text style={styles.interest}>{interest.name}</Text>
+            </View>
+          ))}
         </View>
+      </View>
+
+      <View style={styles.footer}>
+        <TouchableOpacity
+          style={[styles.footerButton, isHomeScreen && styles.activeButton]}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text
+            style={[
+              styles.footerButtonText,
+              isHomeScreen && styles.activeButtonText,
+            ]}
+          >
+            Activity{" "}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.footerButton, isProfileScreen && styles.activeButton]}
+        >
+          <Text
+            style={[
+              styles.footerButtonText,
+              isProfileScreen && styles.activeButtonText,
+            ]}
+          >
+            Profile{" "}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   closeButton: {
     position: "absolute",
-    top: 10,
+    top: 40,
     left: 20,
     zIndex: 1,
   },
@@ -50,9 +131,8 @@ const styles = StyleSheet.create({
     color: "#121111",
   },
   image: {
-    width: 400,
-    height: 400,
-    top: -12,
+    width: 392,
+    height: 550,
   },
   details: {
     paddingHorizontal: 20,
@@ -91,6 +171,43 @@ const styles = StyleSheet.create({
     color: "white",
     textTransform: "uppercase",
     fontSize: 11,
+  },
+  dotsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    zIndex: 10,
+    top: -24,
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "#c2c2c2",
+    marginHorizontal: 5,
+  },
+  activeDot: {
+    backgroundColor: "#edebeb",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderColor: "#E91E63",
+  },
+  footerButton: {
+    padding: 10,
+  },
+  footerButtonText: {
+    color: "#E91E63",
+  },
+  activeButton: {
+    backgroundColor: "#E91E63",
+    borderRadius: 5,
+  },
+  activeButtonText: {
+    color: "#fff",
   },
 });
 
