@@ -42,13 +42,13 @@ const Home = () => {
           style={styles.filterButton}
           onPress={() => navigation.navigate("Filter")}
         >
-          <Text style={styles.filterButtonText}>Filter</Text>
+          <Text style={styles.filterButtonText}>Filter </Text>
         </TouchableOpacity>
         <View style={styles.header}>
-          <Text style={styles.title}>Daily Connections</Text>
+          <Text style={styles.title}>Daily Connections </Text>
         </View>
         <TouchableOpacity style={styles.refreshButton} onPress={handleRefresh}>
-          <Text style={styles.refreshButtonText}>Refresh</Text>
+          <Text style={styles.refreshButtonText}>Refresh </Text>
         </TouchableOpacity>
         <ScrollView
           showsVerticalScrollIndicator={false}

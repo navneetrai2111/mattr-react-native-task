@@ -67,6 +67,12 @@ const Filter = () => {
     });
   };
 
+  const clearFilters = () => {
+    setSelectedGender(null);
+    setSelectedAgeRange(null);
+    setSelectedSortBy("Score");
+  };
+
   return (
     <>
       <StatusBar style="auto" />
@@ -74,11 +80,11 @@ const Filter = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.headerText}>Cancel</Text>
+              <Text style={styles.headerText}>Cancel </Text>
             </TouchableOpacity>
-            <Text style={styles.filterText}>Filter</Text>
-            <TouchableOpacity>
-              <Text style={styles.headerText}>Clear All</Text>
+            <Text style={styles.filterText}>Filter </Text>
+            <TouchableOpacity onPress={clearFilters}>
+              <Text style={styles.headerText}>Clear All </Text>
             </TouchableOpacity>
           </View>
 
