@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 
-const ProfileCard = ({ user }) => {
+const ProfileCard = ({ user, isTopMatch }) => {
   const calculateAge = (dob) => {
     return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
   };
@@ -13,7 +13,10 @@ const ProfileCard = ({ user }) => {
 
   return (
     <View style={styles.card}>
-      <Image source={{ uri: user.photos[0].path }} style={styles.image} />
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: user.photos[0].path }} style={styles.image} />
+        {isTopMatch && <Text style={styles.topMatch}>TOP MATCH </Text>}
+      </View>
       <Text style={styles.name}>
         {user.first_name} {user.last_name}, {age}
       </Text>
@@ -36,24 +39,41 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#faf7f7",
     borderRadius: 10,
-    marginVertical: 10,
-    paddingHorizontal: 20,
     paddingVertical: 20,
     position: "relative",
+    marginVertical: 15,
+  },
+  imageContainer: {
+    position: "relative",
+  },
+  topMatch: {
+    position: "absolute",
+    top: -8,
+    right: 10,
+    backgroundColor: "#595958",
+    color: "white",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 5,
+    fontSize: 12,
+    zIndex: 1,
   },
   image: {
     height: 250,
     width: 350,
-    borderRadius: 15,
+    borderRadius: 10,
+    top: -20,
   },
   name: {
     fontSize: 18,
     color: "#3b3838",
     marginBottom: 5,
+    paddingHorizontal: 20,
   },
   location: {
     fontSize: 14,
     color: "#171616",
+    paddingHorizontal: 20,
     marginBottom: 15,
   },
   button: {

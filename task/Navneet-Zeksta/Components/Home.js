@@ -47,7 +47,11 @@ const Home = ({ navigation, route }) => {
           contentContainerStyle={styles.scrollView}
         >
           {displayedConnections.map((connection, index) => (
-            <ProfileCard key={index} user={connection} />
+            <ProfileCard
+              key={index}
+              user={connection}
+              isTopMatch={index === 0}
+            />
           ))}
         </ScrollView>
       </View>

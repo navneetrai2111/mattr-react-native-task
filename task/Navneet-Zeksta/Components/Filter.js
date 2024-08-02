@@ -18,7 +18,7 @@ const Filter = () => {
   const [selectedSortBy, setSelectedSortBy] = useState("Score");
 
   const genders = ["MALE", "FEMALE"];
-  const ageRanges = ["20-24", "25-30", "30-40", "40+"];
+  const ageRanges = ["20-24 ", "25-30 ", "30-40 ", "40+ "];
   const sortByOptions = ["Score", "Date Joined"];
 
   const handleGenderPress = (gender) => {
