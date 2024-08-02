@@ -21,7 +21,7 @@ const Filter = () => {
   const [selectedOrder, setSelectedOrder] = useState("Ascending");
 
   const genders = ["MALE", "FEMALE"];
-  const ageRanges = ["20-24", "25-30", "30-40", "40+"];
+  const ageRanges = ["20-24 ", "25-30 ", "30-40 ", "40+ "];
   const sortByOptions = ["Score", "Date Joined"];
   const sortOrderOptions = ["Ascending", "Descending"];
 
@@ -41,7 +41,7 @@ const Filter = () => {
         (user) => user.gender.toUpperCase() === selectedGender.toUpperCase()
       );
     }
-
+ 
     if (selectedAgeRange) {
       const [minAge, maxAge] = selectedAgeRange.split("-").map(Number);
       filteredData = filteredData.filter((user) => {
@@ -83,11 +83,11 @@ const Filter = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.headerText}>Cancel</Text>
+              <Text style={styles.headerText}>Cancel </Text>
             </TouchableOpacity>
-            <Text style={styles.filterText}>Filter</Text>
+            <Text style={styles.filterText}>Filter </Text>
             <TouchableOpacity onPress={clearFilters}>
-              <Text style={styles.headerText}>Clear All</Text>
+              <Text style={styles.headerText}>Clear All </Text>
             </TouchableOpacity>
           </View>
 
