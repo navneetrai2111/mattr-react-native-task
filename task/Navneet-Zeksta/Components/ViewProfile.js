@@ -3,15 +3,17 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   StyleSheet,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import moment from "moment";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
-const ViewProfile = ({ route, navigation }) => {
+const ViewProfile = () => {
+  const route = useRoute();
   const { user } = route.params;
-
+  const navigate = useNavigation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
 
@@ -44,7 +46,7 @@ const ViewProfile = ({ route, navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.closeButton}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigate.goBack()}
       >
         <Text style={styles.closeButtonText}>X</Text>
       </TouchableOpacity>
@@ -58,7 +60,7 @@ const ViewProfile = ({ route, navigation }) => {
         onViewableItemsChanged={viewableItemsChanged}
         showsHorizontalScrollIndicator={false}
         viewabilityConfig={{
-          itemVisiblePercentThreshold: 50, // Adjust as needed
+          itemVisiblePercentThreshold: 50,
         }}
       />
       <View style={styles.dotsContainer}>
@@ -157,27 +159,6 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     backgroundColor: "#edebeb",
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderColor: "#E91E63",
-  },
-  footerButton: {
-    padding: 10,
-  },
-  footerButtonText: {
-    color: "#E91E63",
-  },
-  activeButton: {
-    backgroundColor: "#E91E63",
-    borderRadius: 5,
-  },
-  activeButtonText: {
-    color: "#fff",
   },
 });
 

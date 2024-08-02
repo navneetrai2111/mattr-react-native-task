@@ -1,34 +1,31 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
 
-const ProfileCard = ({
-  first_name,
-  last_name,
-  dob,
-  location,
-  photos,
-  onViewProfile,
-}) => {
-  const fullName = `${first_name} ${last_name}`;
-  const fullLocation = `${location.city}, ${location.country}`;
-
+const ProfileCard = ({ user }) => {
   const calculateAge = (dob) => {
     return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
   };
+  const navigation = useNavigation();
 
-  const age = calculateAge(dob);
+  const age = calculateAge(user.dob);
 
   return (
     <View style={styles.card}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: photos[0].path }} style={styles.image} />
-      </View>
+      <Image source={{ uri: user.photos[0].path }} style={styles.image} />
       <Text style={styles.name}>
-        {fullName}, {age}
+        {user.first_name} {user.last_name}, {age}
       </Text>
-      <Text style={styles.location}>{fullLocation}</Text>
-      <TouchableOpacity style={styles.button} onPress={onViewProfile}>
+      <Text style={styles.location}>
+        {user.location.city}, {user.location.country}
+      </Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate("ViewProfile", { user });
+        }}
+      >
         <Text style={styles.buttonText}>View Profile </Text>
       </TouchableOpacity>
     </View>
@@ -43,12 +40,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     position: "relative",
-  },
-  imageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#E91E63",
-    marginTop: -20,
   },
   image: {
     height: 250,

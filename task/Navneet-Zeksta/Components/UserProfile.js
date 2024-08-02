@@ -8,15 +8,16 @@ import {
   FlatList,
 } from "react-native";
 import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
+const data = require("../assets/data.json");
 
-const UserProfile = ({ route, navigation }) => {
-  const { user } = route.params;
-  const isHomeScreen = route.name === "Home";
-  const isProfileScreen = route.name === "UserProfile";
+const UserProfile = () => {
+  const user = data[0];
+  const navigate = useNavigation();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
 
-  // Define viewable items change handler
   const viewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
       setCurrentIndex(viewableItems[0].index);
@@ -46,7 +47,7 @@ const UserProfile = ({ route, navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.closeButton}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigate.goBack()}
       >
         <Text style={styles.closeButtonText}>X</Text>
       </TouchableOpacity>
@@ -82,34 +83,6 @@ const UserProfile = ({ route, navigation }) => {
             </View>
           ))}
         </View>
-      </View>
-
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={[styles.footerButton, isHomeScreen && styles.activeButton]}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text
-            style={[
-              styles.footerButtonText,
-              isHomeScreen && styles.activeButtonText,
-            ]}
-          >
-            Activity{" "}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.footerButton, isProfileScreen && styles.activeButton]}
-        >
-          <Text
-            style={[
-              styles.footerButtonText,
-              isProfileScreen && styles.activeButtonText,
-            ]}
-          >
-            Profile{" "}
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -187,27 +160,6 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     backgroundColor: "#edebeb",
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderColor: "#E91E63",
-  },
-  footerButton: {
-    padding: 10,
-  },
-  footerButtonText: {
-    color: "#E91E63",
-  },
-  activeButton: {
-    backgroundColor: "#E91E63",
-    borderRadius: 5,
-  },
-  activeButtonText: {
-    color: "#fff",
   },
 });
 

@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Picker } from '@react-native-picker/picker';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
+const Filter = () => {
+  const navigate = useNavigation();
 
-const Filter = ({ navigation }) => {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
-  const [selectedSortBy, setSelectedSortBy] = useState('Score');
+  const [selectedSortBy, setSelectedSortBy] = useState("Score");
 
-  const genders = ['MALE', 'FEMALE'];
-  const ageRanges = ['20-24', '25-30', '30-40', '40+'];
-  const sortByOptions = ['Score', 'Date Joined'];
+  const genders = ["MALE", "FEMALE"];
+  const ageRanges = ["20-24", "25-30", "30-40", "40+"];
+  const sortByOptions = ["Score", "Date Joined"];
 
   const handleGenderPress = (gender) => {
     setSelectedGender(gender);
@@ -30,7 +39,7 @@ const Filter = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => navigate.goBack()}>
               <Text style={styles.headerText}>Cancel </Text>
             </TouchableOpacity>
             <Text style={styles.filterText}>Filter </Text>
@@ -54,7 +63,8 @@ const Filter = ({ navigation }) => {
                   <Text
                     style={[
                       styles.optionButtonText,
-                      selectedGender === gender && styles.optionButtonTextSelected,
+                      selectedGender === gender &&
+                        styles.optionButtonTextSelected,
                     ]}
                   >
                     {gender}
@@ -79,7 +89,8 @@ const Filter = ({ navigation }) => {
                   <Text
                     style={[
                       styles.optionButtonText,
-                      selectedAgeRange === range && styles.optionButtonTextSelected,
+                      selectedAgeRange === range &&
+                        styles.optionButtonTextSelected,
                     ]}
                   >
                     {range}
@@ -122,16 +133,16 @@ const styles = StyleSheet.create({
   container: {
     top: 24,
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 24,
   },
   headerText: {
     fontSize: 16,
-    color: '#D81B60',
+    color: "#D81B60",
   },
   filterText: {
     fontSize: 16,
@@ -142,52 +153,52 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 18,
     marginHorizontal: -18,
   },
   optionsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   optionButton: {
-    backgroundColor: '#ffe8fa',
+    backgroundColor: "#ffe8fa",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
     margin: 4,
   },
   optionButtonSelected: {
-    backgroundColor: '#d6139c',
+    backgroundColor: "#d6139c",
   },
   optionButtonText: {
-    color: '#c936a8',
+    color: "#c936a8",
     fontSize: 14,
   },
   optionButtonTextSelected: {
-    color: '#fff',
+    color: "#fff",
   },
   sortByPickerContainer: {
-    borderColor: '#8f3273',
+    borderColor: "#8f3273",
     borderWidth: 1,
     borderRadius: 20,
     marginHorizontal: -18,
-    },
+  },
   picker: {
     // height: 50,
     // width: '100%',
     // color: '#000',
   },
   applyButton: {
-    backgroundColor: '#d6139c',
+    backgroundColor: "#d6139c",
     paddingVertical: 16,
     borderRadius: 20,
-    alignItems: 'center',
+    alignItems: "center",
     margin: 12,
     marginBottom: 44,
   },
   applyButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
   },
 });

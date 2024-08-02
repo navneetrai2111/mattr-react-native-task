@@ -15,11 +15,6 @@ const getRandomConnections = (data) => {
   return shuffled.slice(0, 5);
 };
 
-const calculateAge = (dob) => {
-  return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
-};
-
-const age = calculateAge(dob);
 const Home = ({ navigation, route }) => {
   const [displayedConnections, setDisplayedConnections] = useState([]);
 
@@ -30,13 +25,6 @@ const Home = ({ navigation, route }) => {
   const handleRefresh = useCallback(() => {
     setDisplayedConnections(getRandomConnections(connections));
   }, []);
-
-  const isHomeScreen = route.name === "Home";
-  const isProfileScreen = route.name === "UserProfile";
-
-  const handleViewProfile = (user) => {
-    navigation.navigate("ViewProfile", { user });
-  };
 
   return (
     <>
@@ -59,46 +47,9 @@ const Home = ({ navigation, route }) => {
           contentContainerStyle={styles.scrollView}
         >
           {displayedConnections.map((connection, index) => (
-            <ProfileCard
-              key={index}
-              {...connection}
-              onViewProfile={() => handleViewProfile(connection)}
-            />
+            <ProfileCard key={index} user={connection} />
           ))}
         </ScrollView>
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={[styles.footerButton, isHomeScreen && styles.activeButton]}
-            onPress={() => navigation.navigate("Home")}
-          >
-            <Text
-              style={[
-                styles.footerButtonText,
-                isHomeScreen && styles.activeButtonText,
-              ]}
-            >
-              Activity{" "}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.footerButton,
-              isProfileScreen && styles.activeButton,
-            ]}
-            onPress={() =>
-              navigation.navigate("UserProfile", { user: connections[0] })
-            }
-          >
-            <Text
-              style={[
-                styles.footerButtonText,
-                isProfileScreen && styles.activeButtonText,
-              ]}
-            >
-              Profile{" "}
-            </Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </>
   );
