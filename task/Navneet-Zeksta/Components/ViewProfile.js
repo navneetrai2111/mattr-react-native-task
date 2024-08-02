@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const ViewProfile = () => {
   const route = useRoute();
@@ -16,6 +17,11 @@ const ViewProfile = () => {
   const navigate = useNavigation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleHeartLike = () => {
+    setIsFavorite(!isFavorite);
+  };
 
   const viewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -67,9 +73,18 @@ const ViewProfile = () => {
         {user.photos.map((_, index) => renderDot(index))}
       </View>
       <View style={styles.details}>
-        <Text style={styles.name}>
-          {user.first_name} {user.last_name}, {age}
-        </Text>
+        <View style={styles.nameHeartContainer}>
+          <Text style={styles.name}>
+            {user.first_name} {user.last_name}, {age}
+          </Text>
+          <TouchableOpacity style={styles.heartIcon} onPress={handleHeartLike}>
+            <Icon
+              name="favorite"
+              size={28}
+              color={isFavorite ? "red" : "gray"}
+            />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.location}>
           {user.location.city}, {user.location.country}
         </Text>
@@ -111,9 +126,17 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingBottom: 20,
   },
+  nameHeartContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   name: {
     fontSize: 22,
     fontWeight: "bold",
+  },
+  heartIcon: {
+    marginLeft: 10,
   },
   location: {
     fontSize: 20,
