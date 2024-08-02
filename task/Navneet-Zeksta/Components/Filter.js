@@ -18,10 +18,12 @@ const Filter = () => {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
   const [selectedSortBy, setSelectedSortBy] = useState("Score");
+  const [selectedOrder, setSelectedOrder] = useState("Ascending");
 
   const genders = ["MALE", "FEMALE"];
-  const ageRanges = ["20-24 ", "25-30 ", "30-40 ", "40+ "];
+  const ageRanges = ["20-24", "25-30", "30-40", "40+"];
   const sortByOptions = ["Score", "Date Joined"];
+  const sortOrderOptions = ["Ascending", "Descending"];
 
   const handleGenderPress = (gender) => {
     setSelectedGender(gender);
@@ -29,10 +31,6 @@ const Filter = () => {
 
   const handleAgeRangePress = (ageRange) => {
     setSelectedAgeRange(ageRange);
-  };
-
-  const handleSortByPress = (sortBy) => {
-    setSelectedSortBy(sortBy);
   };
 
   const applyFilters = () => {
@@ -54,13 +52,17 @@ const Filter = () => {
       });
     }
 
-    if (selectedSortBy === "Score") {
-      filteredData = filteredData.sort((a, b) => b.score - a.score);
-    } else if (selectedSortBy === "Date Joined") {
-      filteredData = filteredData.sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at)
-      );
-    }
+    filteredData = filteredData.sort((a, b) => {
+      if (selectedSortBy === "Score") {
+        return selectedOrder === "Ascending"
+          ? a.score - b.score
+          : b.score - a.score;
+      } else if (selectedSortBy === "Date Joined") {
+        return selectedOrder === "Ascending"
+          ? new Date(a.created_at) - new Date(b.created_at)
+          : new Date(b.created_at) - new Date(a.created_at);
+      }
+    });
 
     navigation.navigate("Activity ", {
       filteredData: filteredData,
@@ -71,6 +73,7 @@ const Filter = () => {
     setSelectedGender(null);
     setSelectedAgeRange(null);
     setSelectedSortBy("Score");
+    setSelectedOrder("Ascending");
   };
 
   return (
@@ -80,11 +83,11 @@ const Filter = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.headerText}>Cancel </Text>
+              <Text style={styles.headerText}>Cancel</Text>
             </TouchableOpacity>
-            <Text style={styles.filterText}>Filter </Text>
+            <Text style={styles.filterText}>Filter</Text>
             <TouchableOpacity onPress={clearFilters}>
-              <Text style={styles.headerText}>Clear All </Text>
+              <Text style={styles.headerText}>Clear All</Text>
             </TouchableOpacity>
           </View>
 
@@ -145,10 +148,30 @@ const Filter = () => {
             <View style={styles.sortByPickerContainer}>
               <Picker
                 selectedValue={selectedSortBy}
-                onValueChange={(itemValue) => handleSortByPress(itemValue)}
+                onValueChange={(itemValue) => setSelectedSortBy(itemValue)}
                 style={styles.picker}
               >
                 {sortByOptions.map((option) => (
+                  <Picker.Item
+                    key={option}
+                    label={option}
+                    value={option}
+                    style={styles.pickerItems}
+                  />
+                ))}
+              </Picker>
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Sort order</Text>
+            <View style={styles.sortByPickerContainer}>
+              <Picker
+                selectedValue={selectedOrder}
+                onValueChange={(itemValue) => setSelectedOrder(itemValue)}
+                style={styles.picker}
+              >
+                {sortOrderOptions.map((option) => (
                   <Picker.Item
                     key={option}
                     label={option}
