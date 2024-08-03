@@ -9,14 +9,13 @@ import {
 } from "react-native";
 import ProfileCard from "./ProfileCard";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import data from "../assets/data.json"; 
+import data from "../assets/data.json";
 
 const Home = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [displayData, setDisplayData] = useState([]);
 
-  
   const getRandomItems = () => {
     const shuffled = [...data].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 5);
@@ -24,7 +23,7 @@ const Home = () => {
 
   useEffect(() => {
     if (route.params?.filteredData) {
-      setDisplayData(route.params.filteredData); 
+      setDisplayData(route.params.filteredData);
     } else {
       setDisplayData(getRandomItems());
     }

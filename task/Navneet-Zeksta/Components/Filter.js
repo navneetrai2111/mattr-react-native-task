@@ -41,7 +41,7 @@ const Filter = () => {
         (user) => user.gender.toUpperCase() === selectedGender.toUpperCase()
       );
     }
- 
+
     if (selectedAgeRange) {
       const [minAge, maxAge] = selectedAgeRange.split("-").map(Number);
       filteredData = filteredData.filter((user) => {
