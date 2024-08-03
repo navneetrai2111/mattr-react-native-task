@@ -11,15 +11,12 @@ import { StatusBar } from "expo-status-bar";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import data from "../assets/data.json";
-
 const Filter = () => {
   const navigation = useNavigation();
-
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
   const [selectedSortBy, setSelectedSortBy] = useState("Score");
   const [selectedOrder, setSelectedOrder] = useState("Ascending");
-
   const genders = ["MALE", "FEMALE"];
   const ageRanges = ["20-24 ", "25-30 ", "30-40 ", "40+ "];
   const sortByOptions = ["Score", "Date Joined"];
